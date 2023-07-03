@@ -45,8 +45,8 @@ public class Main extends JavaPlugin {
 		plugin = this;
 		
 		ServerLog.setPluginTag("§f[§6Time§eVote§f]§6");
-		UpdateListener.initializeUpdateListener(1.42, "1.4.2", 7312);
-		UpdateListener.checkForUpdate();
+		// UpdateListener.initializeUpdateListener(1.42, "1.4.2", 7312);
+		// UpdateListener.checkForUpdate();
 		
 		setup();
 

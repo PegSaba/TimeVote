@@ -13,6 +13,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.earth2me.essentials.Essentials;
+
+import lombok.Getter;
 import me.F_o_F_1092.TimeVote.PluginManager.Command;
 import me.F_o_F_1092.TimeVote.PluginManager.CommandListener;
 import me.F_o_F_1092.TimeVote.PluginManager.ServerLog;
@@ -31,15 +34,19 @@ public class Main extends JavaPlugin {
 		return plugin;
 	}
 	
+	// Essentials API
+	@Getter
+	private Essentials essentials;
+	
 	@Override
 	public void onEnable() {
 		System.out.println("[TimeVote] a Plugin by F_o_F_1092");
 
 		plugin = this;
 		
-		ServerLog.setPluginTag("§f[§6Time§eVote§f]§6");
-		UpdateListener.initializeUpdateListener(1.42, "1.4.2", 7312);
-		UpdateListener.checkForUpdate();
+		ServerLog.setPluginTag("Â§f[Â§6TimeÂ§eVoteÂ§f]Â§6");
+		// UpdateListener.initializeUpdateListener(1.42, "1.4.2", 7312);
+		// UpdateListener.checkForUpdate();
 		
 		setup();
 
@@ -48,6 +55,15 @@ public class Main extends JavaPlugin {
 
 		this.getCommand("TimeVote").setExecutor(new CommandTimeVote());
 		this.getCommand("TimeVote").setTabCompleter(new CommandTimeVoteTabCompleter());
+		
+		if (this.getServer().getPluginManager().getPlugin("Essentials") != null) {
+			try {
+				this.essentials = (Essentials) this.getServer().getPluginManager().getPlugin("Essentials");
+				ServerLog.log("Â§aLoaded Essentials API.");
+			} catch (Exception e) {
+				ServerLog.err("Â§cFailed loading Essentials API.");
+			}
+		}
 	}
 	
 	@Override
@@ -143,10 +159,10 @@ public class Main extends JavaPlugin {
 		ServerLog.setUseColoredColores(ymlFileConfig.getBoolean("ColoredConsoleText"));
 		
 		if (!ymlFileConfig.getBoolean("GameVersion.SetOwn")) {
-			ServerLog.log("ServerType:§e " + VersionManager.getSetverTypeString() + "§6, Version:§e " + VersionManager.getBukkitVersion());
+			ServerLog.log("ServerType:Â§e " + VersionManager.getSetverTypeString() + "Â§6, Version:Â§e " + VersionManager.getBukkitVersion());
 		} else {
 			VersionManager.setVersionManager(ymlFileConfig.getString("GameVersion.Version"), ServerType.BUKKIT, true);
-			ServerLog.log("ServerType:§e " + VersionManager.getSetverTypeString() + "§6, Version:§e " + VersionManager.getBukkitVersion() + "§6 | §e(Self configurated)");
+			ServerLog.log("ServerType:Â§e " + VersionManager.getSetverTypeString() + "Â§6, Version:Â§e " + VersionManager.getBukkitVersion() + "Â§6 | Â§e(Self configurated)");
 		}
 		
 		Options.dayTime = ymlFileConfig.getLong("DayTime");
